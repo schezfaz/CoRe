@@ -36,12 +36,23 @@ const searchCourses = async (searchTerm) => {
 		status: 500
 	};
 
+	results = udemyRes.results.map(course => {
+		return {
+			name: course.title,
+			url: `https://udemy.com${course.url}`,
+			image_480x270: course.image_480x270,
+			short_description: course.headline,
+			price_info: course.price_detail
+		}
+	}).sort((a, b) => a.amount - b.amount);
+
 	return { // Have to sort locally because Udemy doesn't seem to do anything with the &ordering=price-low-to-high option.
-		results: udemyRes.results.sort((a, b) => a.price_detail.amount - b.price_detail.amount)
+		results
 	};
 }
 
 const getQuery = (searchTerm) => `https://www.udemy.com/api-2.0/courses/?page_size=10&search=${searchTerm}&ordering=price-low-to-high`
+
 const getHeaders = () => {
 	const headersList = fs.readFileSync('./headers/udemy').toString().split('\n');
 	let headers = {}
