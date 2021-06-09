@@ -1,5 +1,7 @@
 extends layout
+script(type='text/javascript' src="landing.js")
 
 block content
-  h1= title
+  h1= title + "schez"
   p Welcome to #{title}
+  a(href="create"): button(type="button") create new post

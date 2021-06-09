@@ -4,6 +4,9 @@ var path = require('path');
 var cookieParser = require('cookie-parser');
 var logger = require('morgan');
 
+const cors = require('cors'); /*#7: schezfaz*/
+const bodyParser =  require('body-parser'); /*#7: schezfaz*/
+
 var indexRouter = require('./routes/index');
 var usersRouter = require('./routes/users');
 
@@ -13,14 +16,33 @@ var app = express();
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'jade');
 
+//configuring the middleware
+app.use(cors());
+
+//setting bodyparser to convert data to json
+app.use(bodyParser.json()); 
+
 app.use(logger('dev'));
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 
-app.use('/', indexRouter);
-app.use('/users', usersRouter);
+// app.use('/', indexRouter);
+// app.use('/users', usersRouter);
+
+//setting custom routes
+app.get('/', (req,res)=> {
+  //res.send("hello world");
+  res.sendFile(path.join(__dirname, '/frontend/index.html'));
+}) 
+
+app.post('/courseQuery', (req,res)=>{
+  console.log(req.body);
+  var course = req.body.courseQuery;
+  res.json({'courseQuery' : course});
+})
+
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
