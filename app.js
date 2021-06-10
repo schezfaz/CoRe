@@ -7,8 +7,12 @@ var logger = require('morgan');
 const cors = require('cors'); /*#7: schezfaz*/
 const bodyParser =  require('body-parser'); /*#7: schezfaz*/
 
-var indexRouter = require('./routes/index');
-var usersRouter = require('./routes/users');
+// Routes
+
+//var indexRouter = require('./routes/index');
+//var usersRouter = require('./routes/users');
+var udemyRouter = require('./routes/udemy-api').router;
+var youtubePlaylistsRouter = require('./routes/youtubePlaylists');
 
 var app = express();
 
@@ -49,6 +53,12 @@ const content = 'http://asciidoctor.org[*Asciidoctor*] ' +
   'brings AsciiDoc to Node.js!';
 const html = asciidoctor.convert(content) ;
 console.log(html);
+
+
+// app.use('/', indexRouter);
+// app.use('/users', usersRouter);
+app.use('/udemy-api', udemyRouter);
+app.use('/youtubePlaylists', youtubePlaylistsRouter);
 
 
 // catch 404 and forward to error handler
