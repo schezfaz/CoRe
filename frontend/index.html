@@ -2,36 +2,30 @@
 <html>
     <head>
         <title>CORE</title>
+        <!-- Bootstrap CSS -->
+        <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-+0n0xVW2eSR5OomGNYDnhzAbDsOXxcvSN1TPprVMTNDbiYZCxYbOOl7+AMvyTG2x" crossorigin="anonymous">
+        <link rel="stylesheet" href="stylesheets/style.css">
     </head>
 
     <body>
-        <form>
-            <input type="text" name="text" id="text">
-            <button type="submit" id="button">SUBMIT</button>
-        </form>
+        <div class="jumbotron text-center">
+            <h1>CoRe</h1>
+            <p>find the best course alternatives, where less is <i>core</i></p>
+        </div>
 
+        <div class="input-group">
+            <input type="search" name="text" id="text" class="form-control rounded" 
+                placeholder="enter a course name" aria-label="Search" aria-describedby="search-addon" />
+            <button type="button" id="button" class="btn btn-primary">search</button>
+        </div>
+
+        <!-- <form>
+            <input type="text" name="text" id="text">
+            <button type="submit" id="button" >SUBMIT</button>
+        </form> -->
+
+        
     </body>
 
-    <script>
-        var button = document.getElementById('button');
-        var input =  document.getElementById('text');
-
-        button.addEventListener('click', function(e){
-            e.preventDefault();
-            console.log(input.value);
-            fetch("http://localhost:3000/courseQuery",  {
-                method: "POST",
-                headers: {
-                    'Content-type': 'application/json'
-                },
-                body: JSON.stringify({
-                    courseQuery: input.value
-                })
-            }).then(function(data){
-                return data.json() 
-            }).then(function(data){
-                console.log(data)
-            })
-        })
-    </script>
+    <script type="text/javascript" src="/javascript/index.js"></script>
 </html>

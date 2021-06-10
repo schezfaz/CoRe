@@ -6,6 +6,7 @@ var logger = require('morgan');
 
 const cors = require('cors'); /*#7: schezfaz*/
 const bodyParser =  require('body-parser'); /*#7: schezfaz*/
+const fetch = require("node-fetch");
 
 // Routes
 
@@ -13,7 +14,7 @@ const bodyParser =  require('body-parser'); /*#7: schezfaz*/
 //var usersRouter = require('./routes/users');
 var udemyRouter = require('./routes/udemy-api').router;
 var youtubePlaylistsRouter = require('./routes/youtubePlaylists');
-
+ 
 var app = express();
 
 // view engine setup
@@ -43,7 +44,13 @@ app.get('/', (req,res)=> {
 
 app.post('/courseQuery', (req,res)=>{
   console.log(req.body);
+  var query ={
+    "query" : req.body.courseQuery
+  }
+
   var course = req.body.courseQuery;
+
+  //call youtube
   res.json({'courseQuery' : course});
 })
 
