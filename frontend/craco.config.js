@@ -42,7 +42,7 @@ module.exports = {
                 {
                   inject: true,
                 },
-            ],
+            ]
         ],
         loaderOptions: { /* Any babel-loader configuration options: https://github.com/babel/babel-loader. */ },
         loaderOptions: (babelLoaderOptions, { env, paths }) => { return babelLoaderOptions; }
