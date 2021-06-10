@@ -44,7 +44,7 @@ const searchCourses = async (searchTerm) => {
 			short_description: course.headline,
 			price_info: course.price_detail
 		}
-	}).sort((a, b) => a.amount - b.amount);
+	}).sort((a, b) => a.price_info.amount - b.price_info.amount);
 
 	return { // Have to sort locally because Udemy doesn't seem to do anything with the &ordering=price-low-to-high option.
 		results
