@@ -52,26 +52,25 @@ app.get('/', (req,res)=> {
 //   console.log("peepee");
 // }) 
 
+let youtubeOutput = '';
 app.post('/courseQuery', (req,res)=>{
   console.log(req.body);
   var course = req.body.courseQuery;
-  var youtubeOutput = '';
   fetch('http://localhost:3000/youtubePlaylists?query=' + course ).then(res => res.json()).then(function(data) {
     youtubeOutput = data;
+    res.send(youtubeOutput);
     console.log(youtubeOutput);  //expecting array
   });
 
-
-  //call youtube
-  res.json({'courseQuery' : course});
+  //res.json({'courseQuery' : course});
 })
 
-const asciidoctor = require('asciidoctor')() ;
-const content = 'http://asciidoctor.org[*Asciidoctor*] ' +
-  'running on https://opalrb.com[_Opal_] ' +
-  'brings AsciiDoc to Node.js!';
-const html = asciidoctor.convert(content) ;
-console.log(html);
+// const asciidoctor = require('asciidoctor')() ;
+// const content = 'http://asciidoctor.org[*Asciidoctor*] ' +
+//   'running on https://opalrb.com[_Opal_] ' +
+//   'brings AsciiDoc to Node.js!';
+// const html = asciidoctor.convert(content) ;
+// console.log(html);
 
 
 // app.use('/', indexRouter);

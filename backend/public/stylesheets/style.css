@@ -32,14 +32,22 @@ body {
 
 #outputContainer {
   align-items: center;
-  padding: 10px;
-  border: 1px solid black;
-  width: 90%;
+  width: 100%;
   display: none;
+  height: 100%;
+}
+
+#free, #paid {
+  height: 500px;
+  overflow-y: scroll;
 }
 
 #paid{
   background-color: lightsalmon;
+}
+
+.youtubeVideo {
+  left: 30%;
 }
 
 #free {
