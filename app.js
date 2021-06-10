@@ -6,7 +6,7 @@ var logger = require('morgan');
 
 const cors = require('cors'); /*#7: schezfaz*/
 const bodyParser =  require('body-parser'); /*#7: schezfaz*/
-const fetch = require("node-fetch");
+const fetch = require('node-fetch');
 
 // Routes
 
@@ -33,6 +33,9 @@ app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 
+app.use('/udemy-api', udemyRouter);
+app.use('/youtubePlaylists', youtubePlaylistsRouter);
+
 // app.use('/', indexRouter);
 // app.use('/users', usersRouter);
 
@@ -42,13 +45,22 @@ app.get('/', (req,res)=> {
   res.sendFile(path.join(__dirname, '/frontend/index.html'));
 }) 
 
+
+// app.get('/peepee', (req,res)=> {
+//   console.log(req.query.query);
+//   //res.send("hello world");
+//   console.log("peepee");
+// }) 
+
 app.post('/courseQuery', (req,res)=>{
   console.log(req.body);
-  var query ={
-    "query" : req.body.courseQuery
-  }
-
   var course = req.body.courseQuery;
+  var youtubeOutput = '';
+  fetch('http://localhost:3000/youtubePlaylists?query=' + course ).then(res => res.json()).then(function(data) {
+    youtubeOutput = data;
+    console.log(youtubeOutput);  //expecting array
+  });
+
 
   //call youtube
   res.json({'courseQuery' : course});
@@ -64,8 +76,7 @@ console.log(html);
 
 // app.use('/', indexRouter);
 // app.use('/users', usersRouter);
-app.use('/udemy-api', udemyRouter);
-app.use('/youtubePlaylists', youtubePlaylistsRouter);
+
 
 
 // catch 404 and forward to error handler

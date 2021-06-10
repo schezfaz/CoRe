@@ -22,10 +22,26 @@ body {
 .btn-primary:hover {
   color: #212529;
   background-color: #52bebe;
-  border-color: #8ad3d3
+  border-color: #8ad3d3;
 }
 
 .btn-primary:focus,
 .btn-primary.focus {
-    box-shadow: 0 0 0 .2rem rgba(91, 194, 194, 0.5)
+    box-shadow: 0 0 0 .2rem rgba(91, 194, 194, 0.5);
+}
+
+#outputContainer {
+  align-items: center;
+  padding: 10px;
+  border: 1px solid black;
+  width: 90%;
+  display: none;
+}
+
+#paid{
+  background-color: lightsalmon;
+}
+
+#free {
+  background-color: lightgreen;
 }

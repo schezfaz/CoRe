@@ -1,6 +1,8 @@
 var button = document.getElementById('button');
 var input =  document.getElementById('text');
 
+var outputContainer = document.getElementById('outputContainer');
+
 button.addEventListener('click', function(e){
     e.preventDefault();
     console.log(input.value);
@@ -15,6 +17,7 @@ button.addEventListener('click', function(e){
     }).then(function(data){
         return data.json() 
     }).then(function(data){
+        outputContainer.style.display = "block";
         console.log(data)
     })
 })
