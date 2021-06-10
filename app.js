@@ -4,9 +4,11 @@ var path = require('path');
 var cookieParser = require('cookie-parser');
 var logger = require('morgan');
 
+// Routes
 var indexRouter = require('./routes/index');
 var usersRouter = require('./routes/users');
 var udemyRouter = require('./routes/udemy-api').router;
+var youtubePlaylistsRouter = require('./routes/youtubePlaylists');
 
 var app = express();
 
@@ -23,6 +25,7 @@ app.use(express.static(path.join(__dirname, 'public')));
 app.use('/', indexRouter);
 app.use('/users', usersRouter);
 app.use('/udemy-api', udemyRouter);
+app.use('/youtubePlaylists', youtubePlaylistsRouter);
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {

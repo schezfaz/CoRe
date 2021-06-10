@@ -12,6 +12,8 @@
     "express": "~4.16.1",
     "http-errors": "~1.6.3",
     "jade": "~1.11.0",
-    "morgan": "~1.9.1"
+    "morgan": "~1.9.1",
+    "package.json": "^2.0.1",
+    "yt-search": "^2.8.0"
   }
 }
