@@ -41,8 +41,13 @@ app.use('/youtubePlaylists', youtubePlaylistsRouter);
 
 //setting custom routes
 app.get('/', (req,res)=> {
-  //res.send("hello world");
-  res.sendFile(path.join(__dirname, '/frontend/index.html'));
+  res.send("hello world");
+  //res.sendFile(path.join(__dirname, '/frontend/index.html'));
+}) 
+
+app.get('/getName', (req,res)=> {
+  res.send("schezeeeen");
+  //res.sendFile(path.join(__dirname, '/frontend/index.html'));
 }) 
 
 
@@ -56,7 +61,7 @@ let youtubeOutput = '';
 app.post('/courseQuery', (req,res)=>{
   console.log(req.body);
   var course = req.body.courseQuery;
-  fetch('http://localhost:3000/youtubePlaylists?query=' + course ).then(res => res.json()).then(function(data) {
+  fetch('http://localhost:5000/youtubePlaylists?query=' + course ).then(res => res.json()).then(function(data) {
     youtubeOutput = data;
     res.send(youtubeOutput);
     console.log(youtubeOutput);  //expecting array
