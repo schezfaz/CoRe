@@ -8,6 +8,8 @@ const getJSON = bent('json');
 const courseListURL = 'https://catalog-api.udacity.com/v1/courses';
 const coursePriceURL = (node_id) => `https://braavos.udacity.com/api/prices?anonymous_id=9d2576c0-0ecf-4ac4-9bf8-b47f1b8733bf&currency=USD&node_key=${node_id}`
 
+let courseCache = { courses: [], lastUpdate: 0 };
+
 router.get('/', async (req, res, next) => {
 	const result = await searchCourses(req.query.search);
 
@@ -25,24 +27,9 @@ const searchCourses = async (searchTerm) => {
 	};
 	searchTerm = searchTerm.toLowerCase();
 	
-	// Get general Udacity course info.
-	let udacityRes = await getJSON(courseListURL)
-		.catch(e => {
-			console.log(`Error fetching Udacity courses: ${e}`);
-			return {
-				error: e,
-				status: 500
-			};
-		});
+	if (Date.now() + 60 * 60 * 1000 > courseCache.lastUpdate) await updateCourseCache();
 	
-	console.log(udacityRes); // debug
-	
-	if (!udacityRes) return {
-		error: "Result is undefined",
-		status: 500
-	};
-	
-	const results = udacityRes.courses.reduce((acc, course) => {
+	const results = courseCache.courses.reduce((acc, course) => {
 		// If the course name includes the search term, OR If it is part of a relavent track, include it in the results.
 		if (course.title.toLowerCase().includes(searchTerm) || (course.tracks != null && course.tracks.find(t => t.toLowerCase().includes(searchTerm)))) {
 			// // Get Udacity course price info.
@@ -63,6 +50,22 @@ const searchCourses = async (searchTerm) => {
 	return {
 		results
 	};
+}
+
+const updateCourseCache = async () => {
+	// Get general Udacity course info.
+	let udacityRes = await getJSON(courseListURL)
+		.catch(e => {
+			console.log(`Error fetching Udacity courses: ${e}`);
+			return {
+				error: e,
+				status: 500
+			};
+		});
+	
+	courseCache = { courses: udacityRes.courses, lastUpdate: Date.now() }
+
+	if (!udacityRes) return "Result is undefined.";
 }
 
 const getNodeKey = (url) => url.match(/nd[0-9][0-9][0-9]/);
