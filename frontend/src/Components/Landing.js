@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import stylex from "@ladifire-opensource/stylex";
 
 export default function Landing() {
@@ -24,11 +24,45 @@ export default function Landing() {
             height: "30px",
             backgroundColor: "#7cc",
             borderColor: "#5bc2c2"
+        },
+
+        courseContainer: {
+            padding: "20px",
+            height: "100%"
+        },
+
+        paidContainer: {
+            width: "50%",
+            float: "left",
+            padding: "20px",
+            overflowY: "scroll",
+            height: "100%",
+            border: "1px solid blue"
+        },
+
+        freeContainer: {
+            marginRight: "20px",
+            padding: "20px",
+            overflowY: "scroll",
+            height: "500px",
+            backgroundColor: "rgba(55,55,55,0.7)"
+        },
+
+        thumbnail: {
+            alignContent:"center",
+            width: "350px",
+            height: "250px",
+            border: "1px solid black"
+        },
+
+        youtubeTitle: {
+            fontWeight: "bold"
         }
     });
 
-    const [courses, setCourses] = useState('Schez');
+    const [courses, setCourses] = useState([]);
     const [inputQuery, setInputQuery] = useState('');
+    const [showResults, setShowResults] = useState(false);
 
     function handleSubmit(event) {
         event.preventDefault();
@@ -44,7 +78,8 @@ export default function Landing() {
         }).then(function(data){
             return data.json() 
         }).then(function(data){
-            setCourses(data[0].title.stringify);
+            setCourses(data);
+            setShowResults(true);
             console.log(data);
         })
       
@@ -64,6 +99,29 @@ export default function Landing() {
                 />
                 <button className={stylex(styles.searchButton)} type="button" id="button" onClick={handleSubmit} >search</button>
             </div>
+
+            { showResults ? 
+                <div className={stylex(styles.courseContainer)}>
+                    <div className={stylex(styles.paidContainer)}>
+                        <h1>paid container</h1>
+                    </div>
+
+                    <div className={stylex(styles.freeContainer)}>
+                    {
+                        Object.keys(courses).map((oneKey,i)=>{
+                            return (
+                                <div>
+                                    <a href={courses[oneKey]['url']} targer="_blank">
+                                        <img alt="thumbnail" className={stylex(styles.thumbnail)} src={courses[oneKey]['thumbnail']}/>
+                                    </a>                                
+                                    <p className={stylex(styles.youtubeTitle)}>{courses[oneKey]['title']}</p>
+                                </div>
+                            )
+                        })
+                        }
+                    </div>
+                </div>
+            : null }
         </div>
     )
 }
