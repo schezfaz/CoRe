@@ -9,7 +9,8 @@ export default function Landing() {
         },
 
         core: {
-            fontWeight: 700
+            fontWeight: 700,
+            fontSize: "45px"
         },
 
         inputGroup: {
@@ -44,8 +45,8 @@ export default function Landing() {
             marginRight: "20px",
             padding: "20px",
             overflowY: "scroll",
-            height: "500px",
-            backgroundColor: "rgba(55,55,55,0.7)"
+            height: "420px",
+            backgroundColor: "rgba(250, 235, 215,0.9)"
         },
 
         thumbnail: {
