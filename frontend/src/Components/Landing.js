@@ -1,11 +1,17 @@
 import React, { useState, useEffect } from 'react';
+import stylex from "@ladifire-opensource/stylex";
+
 
 export default function Landing() {
+    const styles = stylex.create({
+        root: {
+            backgroundColor: "#FF0000"
+        },
+    });
+
     const [name, setName] = useState('Schez');
 
     useEffect(() => {
-        // Update the document title using the browser API
-      //  document.title = `You clicked ${count} times`;
       fetch("http://localhost:5000/courseQuery",  {
         method: "POST",
         headers: {
@@ -17,6 +23,7 @@ export default function Landing() {
     }).then(function(data){
         return data.json() 
     }).then(function(data){
+        setName(data[0].title.stringify);
         console.log(data);
     })
     })
@@ -24,7 +31,7 @@ export default function Landing() {
     
 
     return (
-        <div>
+        <div className={stylex(styles.root)}>
             <button>get name</button>
             <h1>My name is {name}</h1>
         </div>
