@@ -115,14 +115,24 @@ export default function Landing() {
         }
     });
 
+    const [courses, setCourses] = useState([]);
+    const [inputQuery, setInputQuery] = useState('');
+    const [showResults, setShowResults] = useState(false);
+
     function handleSubmit(event) {
         event.preventDefault();
-        var courses = [{"title":"Full Video: Tum Se Hi | Jab We Met | Kareena Kapoor, Shahid Kapoor | Mohit Chauhan | Pritam","url":"https://youtube.com/watch?v=mt9xg0mmt28","thumbnail":"https://i.ytimg.com/vi/mt9xg0mmt28/hq720.jpg"},{"title":"Can You Say Hi Song | VoVing Coloring Nursery Rhymes & Kids Songs","url":"https://youtube.com/watch?v=AEVeziZyeFY","thumbnail":"https://i.ytimg.com/vi/AEVeziZyeFY/hq720.jpg"},{"title":"Vlad and Niki have fun in museums and playgrounds","url":"https://youtube.com/watch?v=hi-uBNLxyPA","thumbnail":"https://i.ytimg.com/vi/hi-uBNLxyPA/hq720.jpg"},{"title":"Chat Deni Maar Deni khinch ke Tamacha hi hi has Deli Pinky Ke Papa","url":"https://youtube.com/watch?v=nUouZHurUm4","thumbnail":"https://i.ytimg.com/vi/nUouZHurUm4/hq720.jpg"},{"title":"james charles saying \"hi sisters\" BUT speed increases every time","url":"https://youtube.com/watch?v=QqCDZOP-UAU","thumbnail":"https://i.ytimg.com/vi/QqCDZOP-UAU/hq720.jpg"},{"title":"Full Song: Garmi | Street Dancer 3D | Varun D, Nora F, Badshah, Neha K | Remo D","url":"https://youtube.com/watch?v=IE8OD5FbU-c","thumbnail":"https://i.ytimg.com/vi/IE8OD5FbU-c/hq720.jpg"},{"title":"Tujhko Hi Dulhan Banunga - Chalo Ishq Ladaaye | Govinda & Rani | Sonu Nigam & Alka Yagnik","url":"https://youtube.com/watch?v=UwsiJs09OPY","thumbnail":"https://i.ytimg.com/vi/UwsiJs09OPY/hq720.jpg"},{"title":"Full Video: Papa Mere Papa | Main Aisa Hi Hoon | Sushmita Sen |  Himesh Reshammiya","url":"https://youtube.com/watch?v=bhRswBsogNw","thumbnail":"https://i.ytimg.com/vi/bhRswBsogNw/hq720.jpg"},{"title":"COOL NEW GADGETS AVAILABLE ON AMAZON AND ONLINE | HI-TECH GADGETS UNDER Rs500, Rs1000, Rs10K","url":"https://youtube.com/watch?v=-MlXIwvr8Z0","thumbnail":"https://i.ytimg.com/vi/-MlXIwvr8Z0/hq720.jpg"},{"title":"Hi Me In 5 Years","url":"https://youtube.com/watch?v=AKJfakEsgy0","thumbnail":"https://i.ytimg.com/vi/AKJfakEsgy0/hq720.jpg"}];
-        var cards = []
-        courses.forEach(function(v) {
-           
-        });
+        event.preventDefault();
+        fetch("/youtubePlaylists?query="+inputQuery,  {
+            method: "GET",
+            headers: {
+                'Content-type': 'application/json'
+            }
+        }).then(function(data){
+            setCourses(data);
+            setShowResults(true);
+        })
     }
+
     
 
     return (
@@ -132,11 +142,20 @@ export default function Landing() {
                 <p>Find the best course alternatives, where less is <i>core</i></p>
             </div>
             <div>
-                <input placeholder="Enter course name" type="text" className={stylex(styles.materialTextFieldInput)}/>
+                <input placeholder="Enter course name" type="text" className={stylex(styles.materialTextFieldInput)} onChange={(e) => setInputQuery(e.target.value)} />
                 <button className={stylex(styles.searchButton)} type="button" id="button" onClick={handleSubmit} >Search</button>
             </div>
-            <div id="search-results">
-            </div>
+            { showResults ? 
+                <div>
+                    {
+                        Object.keys(courses).map((oneKey,i)=>{
+                            return (
+                               <Card thumbnail={courses[oneKey]["thumbnail"]} title={courses[oneKey]["title"]} platform="YouTube" fee="Free"/>
+                            )
+                        })
+                    }
+                </div>
+            : null }
         </div>
     )
 }
