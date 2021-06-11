@@ -6,6 +6,7 @@ let Card = function statelessFunctionComponentClass(props) {
     let title = props.title;
     let fee = props.fee;
     let platform = props.platform;
+    let url = props.url;
     const styles = stylex.create({
         card: {
              background: "#fff",
@@ -72,6 +73,7 @@ let Card = function statelessFunctionComponentClass(props) {
     });
 
   return (
+    <a href={url}>
     <div className={stylex(styles.card)}>
         <div className={stylex(styles.cardTop)}>
             <img src={thumbnail}/>
@@ -84,6 +86,7 @@ let Card = function statelessFunctionComponentClass(props) {
             <p className={stylex(styles.cardP3)}>{fee}</p>
         </div>
     </div>
+    </a>
   );
 };
 

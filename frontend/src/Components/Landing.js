@@ -115,25 +115,60 @@ export default function Landing() {
         }
     });
 
-    const [courses, setCourses] = useState([]);
+    const [youtubeCourses, setYoutubeCourses] = useState([]);
+    const [udacityCourses, setUdacityCourses] = useState([]);
+    const [udemyCourses, setUdemyCourses] = useState([]);
     const [inputQuery, setInputQuery] = useState('');
     const [showResults, setShowResults] = useState(false);
 
     function handleSubmit(event) {
         event.preventDefault();
         event.preventDefault();
-        fetch("/youtubePlaylists?query="+inputQuery,  {
-            method: "GET",
+        fetch("http://localhost:5000/courseYoutubeQuery",  {
+            method: "POST",
             headers: {
                 'Content-type': 'application/json'
-            }
+            },
+            body: JSON.stringify({
+                courseQuery: inputQuery
+            })
+        }).then(function(data) {
+            return data.json();
         }).then(function(data){
-            setCourses(data);
+            setYoutubeCourses(data);
             setShowResults(true);
-        })
+        });
+        fetch("http://localhost:5000/courseUdemyQuery",  {
+            method: "POST",
+            headers: {
+                'Content-type': 'application/json'
+            },
+            body: JSON.stringify({
+                courseQuery: inputQuery
+            })
+        }).then(function(data) {
+            return data.json();
+        }).then(function(data){
+            console.log(data.results);
+            setUdemyCourses(data.results);
+            setShowResults(true);
+        });
+        fetch("http://localhost:5000/courseUdacityQuery",  {
+            method: "POST",
+            headers: {
+                'Content-type': 'application/json'
+            },
+            body: JSON.stringify({
+                courseQuery: inputQuery
+            })
+        }).then(function(data) {
+            return data.json()
+        }).then(function(data){
+            setUdacityCourses(data.results);
+            setShowResults(true);
+        });
     }
 
-    
 
     return (
         <div className={stylex(styles.root)}>
@@ -148,9 +183,32 @@ export default function Landing() {
             { showResults ? 
                 <div>
                     {
-                        Object.keys(courses).map((oneKey,i)=>{
+                        Object.keys(youtubeCourses).map((oneKey,i)=>{
                             return (
-                               <Card thumbnail={courses[oneKey]["thumbnail"]} title={courses[oneKey]["title"]} platform="YouTube" fee="Free"/>
+                               <Card thumbnail={youtubeCourses[oneKey]["thumbnail"]} title={youtubeCourses[oneKey]["title"]} platform="YouTube" fee="Free" url={youtubeCourses[oneKey]["url"]} />
+                            )
+                        })
+                    }
+                </div>
+            : null }
+            { showResults ? 
+                <div>
+                    {
+                        Object.keys(udemyCourses).map((oneKey,i)=>{
+                            return (
+                               <Card thumbnail={udemyCourses[oneKey]["image_480x270"]} title={udemyCourses[oneKey]["name"]} platform="Udemy" fee={udemyCourses[oneKey]["price_info"]["amount"]} url={udemyCourses[oneKey]["url"]} />
+                            )
+                        })
+                    }
+                </div>
+            : null }
+            { showResults ? 
+                <div>
+                    {
+
+                        Object.keys(udacityCourses).map((oneKey,i)=>{
+                            return (
+                               <Card thumbnail={udacityCourses[oneKey]["image"]} title={udacityCourses[oneKey]["name"]} platform="Udacity" fee={udacityCourses[oneKey]["price_info"]["amount"]} url={udacityCourses[oneKey]["course_url"]}/>
                             )
                         })
                     }
