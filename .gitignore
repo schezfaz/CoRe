@@ -105,3 +105,7 @@ dist
 
 # Exclude local VS Code developer settings
 .vscode
+
+# Virtual Environment
+env
+frontend/env
