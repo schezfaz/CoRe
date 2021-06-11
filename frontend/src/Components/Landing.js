@@ -124,7 +124,7 @@ export default function Landing() {
     function handleSubmit(event) {
         event.preventDefault();
         event.preventDefault();
-        fetch("http://localhost:5000/courseYoutubeQuery",  {
+        fetch("/courseYoutubeQuery",  {
             method: "POST",
             headers: {
                 'Content-type': 'application/json'
@@ -138,7 +138,7 @@ export default function Landing() {
             setYoutubeCourses(data);
             setShowResults(true);
         });
-        fetch("http://localhost:5000/courseUdemyQuery",  {
+        fetch("/courseUdemyQuery",  {
             method: "POST",
             headers: {
                 'Content-type': 'application/json'
@@ -153,7 +153,7 @@ export default function Landing() {
             setUdemyCourses(data.results);
             setShowResults(true);
         });
-        fetch("http://localhost:5000/courseUdacityQuery",  {
+        fetch("/courseUdacityQuery",  {
             method: "POST",
             headers: {
                 'Content-type': 'application/json'
