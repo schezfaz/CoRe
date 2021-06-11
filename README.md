@@ -32,17 +32,19 @@ collect and aggregate course information.
 ## How to run
 ### If you'd like to run your own instance of the app, here's how
 
-1. In your terminal of choice:
-```bash
-$ cd backend
-$ npm install
-$ npm start
-```
-
-2. In another terminal window:
+1. In your terminal of choice, build the frontend:
+Optionally run the following in a node virtual environment.
 ```bash
 $ cd frontend
-$ yarn start
+$ yarn
+$ yarn install
+$ yarn build
+```
+
+2. In another terminal window, run the backend:
+```bash
+$ npm install
+$ npm start
 ```
 
 3. Visit the website at `localhost:3000`!
