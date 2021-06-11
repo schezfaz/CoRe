@@ -42,7 +42,7 @@ $ npm start
 2. In another terminal window:
 ```bash
 $ cd frontend
-$ npm start
+$ yarn start
 ```
 
 3. Visit the website at `localhost:3000`!
