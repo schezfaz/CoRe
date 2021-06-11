@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import stylex from "@ladifire-opensource/stylex";
 
 export default function Landing() {
@@ -28,23 +28,27 @@ export default function Landing() {
     });
 
     const [courses, setCourses] = useState('Schez');
+    const [inputQuery, setInputQuery] = useState('');
 
-    useEffect(() => {
-      fetch("http://localhost:5000/courseQuery",  {
-        method: "POST",
-        headers: {
-            'Content-type': 'application/json'
-        },
-        body: JSON.stringify({
-            courseQuery: "javascript"
+    function handleSubmit(event) {
+        event.preventDefault();
+        console.log("submitted:" +inputQuery);
+        fetch("http://localhost:5000/courseQuery",  {
+            method: "POST",
+            headers: {
+                'Content-type': 'application/json'
+            },
+            body: JSON.stringify({
+                courseQuery: inputQuery
+            })
+        }).then(function(data){
+            return data.json() 
+        }).then(function(data){
+            setCourses(data[0].title.stringify);
+            console.log(data);
         })
-    }).then(function(data){
-        return data.json() 
-    }).then(function(data){
-        setCourses(data[0].title.stringify);
-        console.log(data);
-    })
-    })
+      
+    }
 
     return (
         <div className={stylex(styles.root)}>
@@ -55,8 +59,10 @@ export default function Landing() {
 
             <div>
                 <input type="search" name="text" id="text"  className={stylex(styles.inputGroup)}
-                placeholder="enter a course name" aria-label="Search" aria-describedby="search-addon" />
-                <button className={stylex(styles.searchButton)} type="button" id="button" >search</button>
+                placeholder="enter a course name" aria-label="Search" aria-describedby="search-addon" 
+                onChange = {(e) => setInputQuery(e.target.value)} 
+                />
+                <button className={stylex(styles.searchButton)} type="button" id="button" onClick={handleSubmit} >search</button>
             </div>
         </div>
     )
